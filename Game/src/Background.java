@@ -15,7 +15,7 @@ public class Background{
 	private int h, w; //height and width
 
 	public Background(int x, int y) {
-		img = getImage("/imgs/background1.png"); //load the image for background
+		img = getImage("space1.jpg"); //load the image for background
 		this.x = x;
 		this.y = y;
 
@@ -40,12 +40,12 @@ public class Background{
 	//update picture variable location
 	private void update() {
 		tx.setToTranslation(x, y);
-		tx.scale(1, 1);
+		tx.scale(0.65, 0.65);
 	}
 	
 	private void init(double a, double b) {
 		tx.setToTranslation(a, b);
-		tx.scale(1, 1);
+		tx.scale(0.65, 0.65);
 	}
 
 	private Image getImage(String path) {

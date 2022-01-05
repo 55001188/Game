@@ -57,7 +57,7 @@ public class FrameForGame extends JPanel implements ActionListener, MouseListene
 	
 	public FrameForGame() {
 		JFrame f = new JFrame("Game");
-		f.setSize(new Dimension(900, 600)); //frame dimensions
+		f.setSize(new Dimension(600, 700)); //frame dimensions
 		f.setBackground(Color.black);
 		f.add(this);
 		f.setResizable(false);
