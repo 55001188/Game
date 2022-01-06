@@ -12,7 +12,7 @@ import java.net.URL;
 public class Character {
 	protected Image img;
 	protected AffineTransform tx;
-	protected int x, y;
+	protected int x, y, w, h;
 	protected double vx, vy;
 	protected String file;
 	
@@ -21,6 +21,8 @@ public class Character {
 		img = getImage(file);
 		x = 0;
 		y = 0;
+		w = 0;
+		h = 0;
 		
 		vx = 0;
 		vy = 0;
@@ -36,7 +38,7 @@ public class Character {
 	}
 	
 	public void paint(Graphics g) {
-		if(x >= 800) {
+		if(x + w >= 600) {
 			x--;
 			update();
 		}
@@ -111,6 +113,23 @@ public class Character {
 	public void setFile(String file) {
 		this.file = file;
 	}
+
+	public int getW() {
+		return w;
+	}
+
+	public void setW(int w) {
+		this.w = w;
+	}
+
+	public int getH() {
+		return h;
+	}
+
+	public void setH(int h) {
+		this.h = h;
+	}
+	
 	
 
 }

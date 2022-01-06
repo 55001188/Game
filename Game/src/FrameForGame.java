@@ -29,12 +29,17 @@ public class FrameForGame extends JPanel implements ActionListener, MouseListene
 	
 	Background b = new Background(0,0);
 	Player p = new Player();
+	Bullet s = new Bullet();
+	
+	
 	//use 2d array for enemy?
 	//create 3 different levels of enemy
+	
 	
 	int score;
 	int lives;
 	
+	boolean shoot = false;
 	
 	public void paint(Graphics g) {
 		super.paintComponent(g);
@@ -42,13 +47,22 @@ public class FrameForGame extends JPanel implements ActionListener, MouseListene
 		b.paint(g);
 		p.paint(g);
 		
+		s.paint(g);
+		
+		//bullet
+		if(!shoot) {
+			s.setX((p.getX() + p.getW()/2) - s.getW());
+			s.setY(p.getY());
+		}
+		
+		if(s.getY() + s.getH() < -5) { //add if collide is true
+			shoot = false;
+			s.setX((p.getX() + p.getW()/2) - s.getW());
+			s.setY(p.getY());
+		}
+		
 		
 	}
-	
-	public void reset() {
-		
-	}
-	
 	
 	public static void main(String[] arg) {
 		FrameForGame f = new FrameForGame();
@@ -142,10 +156,26 @@ public class FrameForGame extends JPanel implements ActionListener, MouseListene
 		//39 right, 40 middle, 37 left, 38 top
 		
 		if(arg0.getKeyCode() == 39) {
+			if(p.getREdge()) {
+				p.setVx(0);
+			}
 			p.setVx(5);
+			
+			
 		}
 		if(arg0.getKeyCode() == 37) {
+			if(p.getLEdge()) {
+				p.setVx(0);
+			}
 			p.setVx(-5);
+			
+		}
+		
+		//shoot
+		if(arg0.getKeyCode() == 32) {
+			shoot = true;
+			s.setVy(-5);
+			System.out.print("hi");
 		}
 		
 	}
@@ -159,6 +189,7 @@ public class FrameForGame extends JPanel implements ActionListener, MouseListene
 		if(arg0.getKeyCode() == 37) {
 			p.setVx(0);
 		}
+		
 	}
 
 	@Override
