@@ -19,7 +19,12 @@ public class Bullet {
 		w = 4;
 	}
 	
-	public void collide(Object other) {
+	public void collideE(Enemy other) {
+		//collide with enemy or barrier
+		//when collide, disappear or set it to shooting position
+	}
+	
+	public void collideB(Barrier other) {
 		//collide with enemy or barrier
 		//when collide, disappear or set it to shooting position
 	}

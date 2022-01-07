@@ -6,6 +6,8 @@ public class Enemy extends Character {
 		super();
 		x = 300; 
 		y = 200;
+		w = 20;
+		h = 10;
 		file = "";
 	}
 	
@@ -16,8 +18,7 @@ public class Enemy extends Character {
 	}
 	
 	public void paint(Graphics g) {
-		super.paint(g);
-		
+		g.fillRect(x, y, w, h);
 		
 		
 	}

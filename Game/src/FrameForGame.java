@@ -30,6 +30,7 @@ public class FrameForGame extends JPanel implements ActionListener, MouseListene
 	Background b = new Background(0,0);
 	Player p = new Player();
 	Bullet s = new Bullet();
+	Enemy e = new Enemy();
 	
 	
 	//use 2d array for enemy?
@@ -46,7 +47,7 @@ public class FrameForGame extends JPanel implements ActionListener, MouseListene
 		//ask objects to paint themselves
 		b.paint(g);
 		p.paint(g);
-		
+		e.paint(g);
 		s.paint(g);
 		
 		//bullet
