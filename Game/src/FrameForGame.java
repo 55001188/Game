@@ -55,7 +55,7 @@ public class FrameForGame extends JPanel implements ActionListener, MouseListene
 			s.setY(p.getY());
 		}
 		
-		if(s.getY() + s.getH() < -5) { //add if collide is true
+		if(s.getY() + s.getH() < -5) { //add if collide is true 
 			shoot = false;
 			s.setX((p.getX() + p.getW()/2) - s.getW());
 			s.setY(p.getY());

@@ -4,7 +4,7 @@ public class Enemy extends Character {
 
 	public Enemy() {
 		super();
-		x = 300;
+		x = 300; 
 		y = 200;
 		file = "";
 	}

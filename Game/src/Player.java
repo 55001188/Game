@@ -20,7 +20,7 @@ public class Player extends Character{
 		g.setColor(Color.white);
 		g.fillRect(x, y, w, h);
 		x+=vx;
-		if(x + w > 600) { //fix boundaries
+		if(x + w > 600) { //fix boundaries 
 			rEdge = true;
 			x--;
 		} else {

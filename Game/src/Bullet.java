@@ -10,7 +10,7 @@ public class Bullet {
 		vy = 0;
 		w = 4;
 		h = 10;
-	}
+	} 
 	
 	public Bullet(int nX, int nY) {
 		x = nX; //middle of player image
