@@ -19,14 +19,49 @@ public class Bullet {
 		w = 4;
 	}
 	
-	public void collideE(Enemy other) {
+	public boolean collideE(Enemy other) {
 		//collide with enemy or barrier
 		//when collide, disappear or set it to shooting position
+		int x1 = this.getX();
+		int y1 = this.getY();
+		int w1 = this.getW();
+		int h1 = this.getH();
+		int x2 = other.getX();
+		int y2 = other.getY();
+		int w2 = other.getW();
+		int h2 = other.getH();
+		boolean collision = false;
+		
+		if(x1-(x2 + w2) < 0 || (x1 + w1)-x2 > 0) { //collision x (left, right)
+			if(y1 - (y2 + h2) < 0) {//collision y (top)
+				collision = true;
+			}
+		}
+		
+		return collision;
 	}
 	
-	public void collideB(Barrier other) {
+	public boolean collideB(Barrier other) {
 		//collide with enemy or barrier
 		//when collide, disappear or set it to shooting position
+		int x1 = this.getX();
+		int y1 = this.getY();
+		int w1 = this.getW();
+		int h1 = this.getH();
+		int x2 = other.getX();
+		int y2 = other.getY();
+		int w2 = other.getW();
+		int h2 = other.getH();
+		boolean collision = false;
+		
+		if(x1-(x2 + w2) < 0 || (x1 + w1)-x2 > 0) { //collision x (left, right)
+			if((y1 + h1) - y2 > 0) {//collision y (bottom)
+				collision = true;
+			}
+		}
+		
+		return collision;
+	
 	}
 	
 	public void paint(Graphics g) {

@@ -29,7 +29,7 @@ public class FrameForGame extends JPanel implements ActionListener, MouseListene
 	
 	Background b = new Background(0,0);
 	Player p = new Player();
-	Bullet s = new Bullet();
+	Bullet bulletP = new Bullet();
 	Enemy e = new Enemy();
 	
 	
@@ -45,22 +45,31 @@ public class FrameForGame extends JPanel implements ActionListener, MouseListene
 	public void paint(Graphics g) {
 		super.paintComponent(g);
 		//ask objects to paint themselves
-		b.paint(g);
-		p.paint(g);
-		e.paint(g);
-		s.paint(g);
+		b.paint(g); //background
+		p.paint(g); //player
+		e.paint(g); //enemy
 		
-		//bullet
+		bulletP.paint(g);
+		
+		//bullet for player
 		if(!shoot) {
-			s.setX((p.getX() + p.getW()/2) - s.getW());
-			s.setY(p.getY());
+			bulletP.setX((p.getX() + p.getW()/2) - bulletP.getW());
+			bulletP.setY(p.getY());
 		}
 		
-		if(s.getY() + s.getH() < -5) { //add if collide is true 
+		if(bulletP.collideE(e)) {
 			shoot = false;
-			s.setX((p.getX() + p.getW()/2) - s.getW());
-			s.setY(p.getY());
+			bulletP.setX((p.getX() + p.getW()/2) - bulletP.getW());
+			bulletP.setY(p.getY());
 		}
+		if(bulletP.getY() + bulletP.getH() < -5) { //add if collide is true 
+			shoot = false;
+			bulletP.setX((p.getX() + p.getW()/2) - bulletP.getW());
+			bulletP.setY(p.getY());
+		}
+		
+		
+		
 		
 		
 	}
@@ -175,7 +184,7 @@ public class FrameForGame extends JPanel implements ActionListener, MouseListene
 		//shoot
 		if(arg0.getKeyCode() == 32) {
 			shoot = true;
-			s.setVy(-5);
+			bulletP.setVy(-5);
 			System.out.print("hi");
 		}
 		
