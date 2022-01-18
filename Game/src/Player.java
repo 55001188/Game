@@ -18,7 +18,7 @@ public class Player extends Character{
 		super();
 		img = getImage("rocket.png");
 		x = 280;
-		y = 580;
+		y = 550;
 		
 		rEdge = false;
 		lEdge = false;

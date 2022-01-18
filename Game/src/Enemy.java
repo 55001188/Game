@@ -19,9 +19,11 @@ public class Enemy extends Character {
 		init(x, y);
 	}
 	
-	public Enemy(String fileName) {
+	public Enemy(String fileName, int newX, int newY) {
 		// TODO Auto-generated constructor stub
 		super();
+		x = newX;
+		y = newY;
 		file = fileName;
 		img = getImage(file);
 		tx = AffineTransform.getTranslateInstance(x, y);

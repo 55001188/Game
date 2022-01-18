@@ -17,6 +17,7 @@ import java.awt.geom.AffineTransform;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.concurrent.TimeUnit;
 
 import javax.imageio.ImageIO;
@@ -27,37 +28,43 @@ import javax.swing.Timer;
 
 public class FrameForGame extends JPanel implements ActionListener, MouseListener, KeyListener {
 	
-	Background b = new Background(0,0);
-	Player p = new Player();
-	Bullet bulletP = new Bullet();
-	Enemy e = new Enemy("alienE.png");
-	Enemy m = new Enemy("alienM.png");
-	Enemy h = new Enemy("alienH.png");
-	Enemy s = new Enemy("ship.png");
+	private Background b = new Background(0,0);
+	private Player p = new Player();
+	private Bullet bulletP = new Bullet();
+	private Enemy s = new Enemy("ship.png", 0, 70);
+	private Enemy[][] e = new Enemy[2][6];
+	private ArrayList<Enemy> m = new ArrayList<Enemy> ();
+	private ArrayList<Enemy> h = new ArrayList<Enemy> ();
 	
 	
-	//use 2d array for enemy?
-	//create 3 different levels of enemy
 	
-	
-	int score;
+	int score; //e = 10, m = 20, h = 30
 	int lives;
 	
 	boolean shoot = false;
 	
 	public void paint(Graphics g) {
-		super.paintComponent(g);
+		//super.paintComponent(g);
 		//ask objects to paint themselves
 		b.paint(g); //background
 		p.paint(g); //player
-		e.paint(g); //enemy
-		m.setX(100);
-		m.paint(g);
-		h.setX(200);
-		h.paint(g);
-		s.setX(300);
-		s.setTx(2, 2);
+		s.setTx(2, 2);//ship
 		s.paint(g);
+		
+		//paint m
+		for(Enemy thisEnemy : m) {
+			thisEnemy.paint(g);
+		}
+		
+		for(Enemy thisEnemy : h) {
+			thisEnemy.paint(g);
+		}
+		
+		for(int i = 0; i < e.length; i++) {
+			for(int j = 0; j < e[0].length; j++) {
+				e[i][j].paint(g);
+			}
+		}
 		
 		bulletP.paint(g);
 		
@@ -120,6 +127,37 @@ public class FrameForGame extends JPanel implements ActionListener, MouseListene
 		*/
 		
 		
+		int x = 100;
+		int y = 300;
+		//easy
+		for(int i = 0; i < e.length; i++) {
+			for(int k = 0; k < e[0].length; k++) {
+				e[i][k] = new Enemy("alienE.png",x,y);
+				x+=60;
+			}
+			y+=50;
+			x = 100;
+		}
+		
+		//medium
+		x = 100;
+		for(int i = 0; i < 6; i++) {
+			y = 250;
+			Enemy temp = new Enemy("alienM.png", x, y);
+			//add to array list
+			m.add(temp);
+			x+=60;
+		}
+		
+		//hard
+		x = 100;
+		for(int i = 0; i < 6; i++) {
+			y = 200;
+			Enemy temp = new Enemy("alienH.png", x, y);
+			//add to array list
+			h.add(temp);
+			x+=62;
+		}
 		
 		
 	}
@@ -188,7 +226,7 @@ public class FrameForGame extends JPanel implements ActionListener, MouseListene
 		//shoot
 		if(arg0.getKeyCode() == 32) {
 			shoot = true;
-			bulletP.setVy(-5);
+			bulletP.setVy(-7);
 			System.out.print("hi");
 		}
 		
@@ -211,5 +249,6 @@ public class FrameForGame extends JPanel implements ActionListener, MouseListene
 		// TODO Auto-generated method stub
 		
 	}
+	
 
 }
