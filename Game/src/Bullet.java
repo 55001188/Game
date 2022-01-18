@@ -9,7 +9,7 @@ public class Bullet {
 		y = 500; //change later
 		vy = 0;
 		w = 4;
-		h = 10;
+		h = 15;
 	} 
 	
 	public Bullet(int nX, int nY) {
@@ -20,7 +20,7 @@ public class Bullet {
 	}
 	
 	public boolean collideE(Enemy other) {
-		//collide with enemy or barrier
+		//collide with enemy
 		//when collide, disappear or set it to shooting position
 		int x1 = this.getX();
 		int y1 = this.getY();
@@ -31,18 +31,22 @@ public class Bullet {
 		int w2 = other.getW();
 		int h2 = other.getH();
 		boolean collision = false;
-		
+		/*
 		if(x1-(x2 + w2) < 0 || (x1 + w1)-x2 > 0) { //collision x (left, right)
-			if(y1 - (y2 + h2) < 0) {//collision y (top)
-				collision = true;
-			}
+			
+		}
+		*/
+		if(y1 - (y2 + h2) < 0) {//collision y (top)
+			collision = true;
+		} else {
+			collision = false;
 		}
 		
 		return collision;
 	}
 	
 	public boolean collideB(Barrier other) {
-		//collide with enemy or barrier
+		//collide with barrier
 		//when collide, disappear or set it to shooting position
 		int x1 = this.getX();
 		int y1 = this.getY();
@@ -53,11 +57,15 @@ public class Bullet {
 		int w2 = other.getW();
 		int h2 = other.getH();
 		boolean collision = false;
-		
+		/*
 		if(x1-(x2 + w2) < 0 || (x1 + w1)-x2 > 0) { //collision x (left, right)
-			if((y1 + h1) - y2 > 0) {//collision y (bottom)
-				collision = true;
-			}
+			
+		}
+		*/
+		if((y1 + h1) - y2 > 0) {//collision y (bottom)
+			collision = true;
+		} else {
+			collision = false;
 		}
 		
 		return collision;

@@ -38,15 +38,7 @@ public class Character {
 	}
 	
 	public void paint(Graphics g) {
-		if(x + w >= 600) {
-			x--;
-			update();
-		}
 		
-		if(x < 0) {
-			x++;
-			update();
-		}
 	}
 	
 	//update picture variable location

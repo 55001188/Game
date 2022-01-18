@@ -30,7 +30,10 @@ public class FrameForGame extends JPanel implements ActionListener, MouseListene
 	Background b = new Background(0,0);
 	Player p = new Player();
 	Bullet bulletP = new Bullet();
-	Enemy e = new Enemy();
+	Enemy e = new Enemy("alienE.png");
+	Enemy m = new Enemy("alienM.png");
+	Enemy h = new Enemy("alienH.png");
+	Enemy s = new Enemy("ship.png");
 	
 	
 	//use 2d array for enemy?
@@ -48,6 +51,13 @@ public class FrameForGame extends JPanel implements ActionListener, MouseListene
 		b.paint(g); //background
 		p.paint(g); //player
 		e.paint(g); //enemy
+		m.setX(100);
+		m.paint(g);
+		h.setX(200);
+		h.paint(g);
+		s.setX(300);
+		s.setTx(2, 2);
+		s.paint(g);
 		
 		bulletP.paint(g);
 		
@@ -56,15 +66,16 @@ public class FrameForGame extends JPanel implements ActionListener, MouseListene
 			bulletP.setX((p.getX() + p.getW()/2) - bulletP.getW());
 			bulletP.setY(p.getY());
 		}
-		
+		/*
 		if(bulletP.collideE(e)) {
 			shoot = false;
 			bulletP.setX((p.getX() + p.getW()/2) - bulletP.getW());
 			bulletP.setY(p.getY());
 		}
+		*/
 		if(bulletP.getY() + bulletP.getH() < -5) { //add if collide is true 
 			shoot = false;
-			bulletP.setX((p.getX() + p.getW()/2) - bulletP.getW());
+			bulletP.setX((p.getX() + p.getW()/2) - bulletP.getW()/2);
 			bulletP.setY(p.getY());
 		}
 		
@@ -166,17 +177,10 @@ public class FrameForGame extends JPanel implements ActionListener, MouseListene
 		//39 right, 40 middle, 37 left, 38 top
 		
 		if(arg0.getKeyCode() == 39) {
-			if(p.getREdge()) {
-				p.setVx(0);
-			}
 			p.setVx(5);
-			
-			
 		}
+		
 		if(arg0.getKeyCode() == 37) {
-			if(p.getLEdge()) {
-				p.setVx(0);
-			}
 			p.setVx(-5);
 			
 		}
