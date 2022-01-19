@@ -37,8 +37,8 @@ public class Enemy extends Character {
 		Graphics2D g2 = (Graphics2D) g;
 		g2.drawImage(img, tx, null);
 		update();
-		w = img.getWidth(null);
-		h = img.getHeight(null);
+		//w = img.getWidth(null);
+		//h = img.getHeight(null);
 		
 		
 	}

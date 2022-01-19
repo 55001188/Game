@@ -3,6 +3,7 @@ import java.awt.Graphics;
 public class Bullet {
 	private int x,y,w, h;
 	private int vy;
+	private boolean collision;
 	
 	public Bullet() {
 		x = 300; //middle of player image
@@ -10,6 +11,7 @@ public class Bullet {
 		vy = 0;
 		w = 4;
 		h = 15;
+		collision = false;
 	} 
 	
 	public Bullet(int nX, int nY) {
@@ -30,14 +32,15 @@ public class Bullet {
 		int y2 = other.getY();
 		int w2 = other.getW();
 		int h2 = other.getH();
-		boolean collision = false;
-		/*
-		if(x1-(x2 + w2) < 0 || (x1 + w1)-x2 > 0) { //collision x (left, right)
-			
-		}
-		*/
+		
 		if(y1 - (y2 + h2) < 0) {//collision y (top)
-			collision = true;
+			if(x1-(x2 + w2) < 0 || (x1 + w1)-x2 > 0) { //collision x (left, right)
+				other.setX(1500);
+				other.setY(1500);
+				collision = true;
+			} else {
+				collision = false;
+			}
 		} else {
 			collision = false;
 		}
@@ -56,7 +59,6 @@ public class Bullet {
 		int y2 = other.getY();
 		int w2 = other.getW();
 		int h2 = other.getH();
-		boolean collision = false;
 		/*
 		if(x1-(x2 + w2) < 0 || (x1 + w1)-x2 > 0) { //collision x (left, right)
 			
@@ -116,4 +118,6 @@ public class Bullet {
 	public void setH(int h) {
 		this.h = h;
 	}
+	
+	
 }

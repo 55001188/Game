@@ -38,7 +38,7 @@ public class FrameForGame extends JPanel implements ActionListener, MouseListene
 	
 	
 	
-	int score; //e = 10, m = 20, h = 30
+	int score = 0; //e = 10, m = 20, h = 30
 	int lives;
 	
 	boolean shoot = false;
@@ -60,11 +60,13 @@ public class FrameForGame extends JPanel implements ActionListener, MouseListene
 			thisEnemy.paint(g);
 		}
 		
+		/*
 		for(int i = 0; i < e.length; i++) {
 			for(int j = 0; j < e[0].length; j++) {
 				e[i][j].paint(g);
 			}
 		}
+		*/
 		
 		bulletP.paint(g);
 		
@@ -73,17 +75,20 @@ public class FrameForGame extends JPanel implements ActionListener, MouseListene
 			bulletP.setX((p.getX() + p.getW()/2) - bulletP.getW());
 			bulletP.setY(p.getY());
 		}
-		/*
-		if(bulletP.collideE(e)) {
-			shoot = false;
-			bulletP.setX((p.getX() + p.getW()/2) - bulletP.getW());
-			bulletP.setY(p.getY());
+		
+		
+		//collision
+		for(Enemy thisEnemy : m) {
+			if(bulletP.collideE(thisEnemy)) {
+				shoot = false;
+				score += 20;
+			}
 		}
-		*/
-		if(bulletP.getY() + bulletP.getH() < -5) { //add if collide is true 
+		
+		
+		//if bullet goes off of screen
+		if(bulletP.getY() + bulletP.getH() < -5) {
 			shoot = false;
-			bulletP.setX((p.getX() + p.getW()/2) - bulletP.getW()/2);
-			bulletP.setY(p.getY());
 		}
 		
 		
@@ -129,6 +134,7 @@ public class FrameForGame extends JPanel implements ActionListener, MouseListene
 		
 		int x = 100;
 		int y = 300;
+		/*
 		//easy
 		for(int i = 0; i < e.length; i++) {
 			for(int k = 0; k < e[0].length; k++) {
@@ -138,6 +144,7 @@ public class FrameForGame extends JPanel implements ActionListener, MouseListene
 			y+=50;
 			x = 100;
 		}
+		*/
 		
 		//medium
 		x = 100;
