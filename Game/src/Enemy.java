@@ -11,8 +11,8 @@ public class Enemy extends Character {
 		super();
 		x = 300; 
 		y = 200;
-		w = 20;
-		h = 20;
+		w = 50;
+		h = 35;
 		img = getImage("alienE.png");
 		
 		tx = AffineTransform.getTranslateInstance(x, y);
@@ -29,7 +29,7 @@ public class Enemy extends Character {
 		tx = AffineTransform.getTranslateInstance(x, y);
 		init(x, y);
 		w = 20;
-		h = 20;
+		h = 30;
 	}
 	
 	public void paint(Graphics g) {

@@ -21,7 +21,7 @@ public class Bullet {
 		w = 4;
 	}
 	
-	public boolean collideE(Enemy other) {
+	public void collideE(Enemy other) {
 		//collide with enemy
 		//when collide, disappear or set it to shooting position
 		int x1 = this.getX();
@@ -33,8 +33,9 @@ public class Bullet {
 		int w2 = other.getW();
 		int h2 = other.getH();
 		
-		if(y1 - (y2 + h2) < 0) {//collision y (top)
-			if(x1-(x2 + w2) < 0 || (x1 + w1)-x2 > 0) { //collision x (left, right)
+		if(y1 < (y2+h2) && y1 > y2) {//y detection
+			//collision x (left, right)
+			if((x1 > x2 && x1 < (x2+w2)) || ((x1+w1) > x2 && (x1+w1) < (x2+w2))) { 
 				other.setX(1500);
 				other.setY(1500);
 				collision = true;
@@ -45,7 +46,7 @@ public class Bullet {
 			collision = false;
 		}
 		
-		return collision;
+		
 	}
 	
 	public boolean collideB(Barrier other) {
@@ -72,6 +73,12 @@ public class Bullet {
 		
 		return collision;
 	
+	}
+	
+	public void reset(Player p) {
+		x = (p.getX() + p.getW()/2) - w;
+		y = p.getY();
+		collision = false;
 	}
 	
 	public void paint(Graphics g) {
@@ -118,6 +125,15 @@ public class Bullet {
 	public void setH(int h) {
 		this.h = h;
 	}
+
+	public boolean isCollision() {
+		return collision;
+	}
+
+	public void setCollision(boolean collision) {
+		this.collision = collision;
+	}
+	
 	
 	
 }

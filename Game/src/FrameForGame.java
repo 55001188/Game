@@ -70,16 +70,17 @@ public class FrameForGame extends JPanel implements ActionListener, MouseListene
 		
 		bulletP.paint(g);
 		
+		
 		//bullet for player
 		if(!shoot) {
-			bulletP.setX((p.getX() + p.getW()/2) - bulletP.getW());
-			bulletP.setY(p.getY());
+			bulletP.reset(p);
 		}
 		
 		
 		//collision
 		for(Enemy thisEnemy : m) {
-			if(bulletP.collideE(thisEnemy)) {
+			bulletP.collideE(thisEnemy); 
+			if(bulletP.isCollision()){
 				shoot = false;
 				score += 20;
 			}
@@ -218,7 +219,7 @@ public class FrameForGame extends JPanel implements ActionListener, MouseListene
 	@Override
 	public void keyPressed(KeyEvent arg0) {
 		// TODO Auto-generated method stub
-		System.out.println(arg0.getKeyCode());
+		//System.out.println(arg0.getKeyCode());
 		//39 right, 40 middle, 37 left, 38 top
 		
 		if(arg0.getKeyCode() == 39) {
@@ -234,7 +235,6 @@ public class FrameForGame extends JPanel implements ActionListener, MouseListene
 		if(arg0.getKeyCode() == 32) {
 			shoot = true;
 			bulletP.setVy(-7);
-			System.out.print("hi");
 		}
 		
 	}
