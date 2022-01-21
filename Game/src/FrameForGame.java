@@ -35,6 +35,7 @@ public class FrameForGame extends JPanel implements ActionListener, MouseListene
 	private Enemy[][] e = new Enemy[2][6];
 	private ArrayList<Enemy> m = new ArrayList<Enemy> ();
 	private ArrayList<Enemy> h = new ArrayList<Enemy> ();
+	private Enemy me = new Enemy("alienM.png", 100, 100);
 	
 	
 	
@@ -45,28 +46,29 @@ public class FrameForGame extends JPanel implements ActionListener, MouseListene
 	
 	public void paint(Graphics g) {
 		//super.paintComponent(g);
-		//ask objects to paint themselves
 		b.paint(g); //background
 		p.paint(g); //player
-		s.setTx(2, 2);//ship
+		s.setTx(0.5);//ship
 		s.paint(g);
+		
+		//paint e
+		/*
+		for(int i = 0; i < e.length; i++) {
+			for(int j = 0; j < e[0].length; j++) {
+				e[i][j].paint(g);
+			}
+		}*/
+		
 		
 		//paint m
 		for(Enemy thisEnemy : m) {
 			thisEnemy.paint(g);
 		}
 		
+		//paint h
 		for(Enemy thisEnemy : h) {
 			thisEnemy.paint(g);
 		}
-		
-		/*
-		for(int i = 0; i < e.length; i++) {
-			for(int j = 0; j < e[0].length; j++) {
-				e[i][j].paint(g);
-			}
-		}
-		*/
 		
 		bulletP.paint(g);
 		
@@ -77,7 +79,7 @@ public class FrameForGame extends JPanel implements ActionListener, MouseListene
 		}
 		
 		
-		//collision
+		//collision w/ m
 		for(Enemy thisEnemy : m) {
 			bulletP.collideE(thisEnemy); 
 			if(bulletP.isCollision()){
@@ -85,7 +87,22 @@ public class FrameForGame extends JPanel implements ActionListener, MouseListene
 				score += 20;
 			}
 		}
+		//collision w/ h
+		for(Enemy thisEnemy : h) {
+			bulletP.collideE(thisEnemy); 
+			if(bulletP.isCollision()){
+				shoot = false;
+				score += 30;
+			}
+		}
 		
+		
+		bulletP.collideE(me); 
+		if(bulletP.isCollision()){
+			shoot = false;
+			score += 20;
+			System.out.println(me.getW());
+		}
 		
 		//if bullet goes off of screen
 		if(bulletP.getY() + bulletP.getH() < -5) {
@@ -134,23 +151,23 @@ public class FrameForGame extends JPanel implements ActionListener, MouseListene
 		
 		
 		int x = 100;
-		int y = 300;
-		/*
+		int y = 250;
+		/**/
 		//easy
 		for(int i = 0; i < e.length; i++) {
 			for(int k = 0; k < e[0].length; k++) {
-				e[i][k] = new Enemy("alienE.png",x,y);
+				e[i][k] = new Enemy("alienE.png", x, y);
 				x+=60;
 			}
 			y+=50;
 			x = 100;
 		}
-		*/
+		
 		
 		//medium
 		x = 100;
+		y -= 150;
 		for(int i = 0; i < 6; i++) {
-			y = 250;
 			Enemy temp = new Enemy("alienM.png", x, y);
 			//add to array list
 			m.add(temp);
@@ -159,8 +176,8 @@ public class FrameForGame extends JPanel implements ActionListener, MouseListene
 		
 		//hard
 		x = 100;
+		y -= 50;
 		for(int i = 0; i < 6; i++) {
-			y = 200;
 			Enemy temp = new Enemy("alienH.png", x, y);
 			//add to array list
 			h.add(temp);

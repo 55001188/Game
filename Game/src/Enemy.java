@@ -6,15 +6,14 @@ import java.awt.geom.AffineTransform;
 import java.net.URL;
 
 public class Enemy extends Character {
-
+	private double scale;
+	
 	public Enemy() {
 		super();
 		x = 300; 
 		y = 200;
-		w = 50;
-		h = 35;
 		img = getImage("alienE.png");
-		
+		scale = 0.15;
 		tx = AffineTransform.getTranslateInstance(x, y);
 		init(x, y);
 	}
@@ -26,10 +25,9 @@ public class Enemy extends Character {
 		y = newY;
 		file = fileName;
 		img = getImage(file);
+		scale = 0.15;
 		tx = AffineTransform.getTranslateInstance(x, y);
 		init(x, y);
-		w = 20;
-		h = 30;
 	}
 	
 	public void paint(Graphics g) {
@@ -37,24 +35,26 @@ public class Enemy extends Character {
 		Graphics2D g2 = (Graphics2D) g;
 		g2.drawImage(img, tx, null);
 		update();
-		//w = img.getWidth(null);
-		//h = img.getHeight(null);
+		w = img.getWidth(null)*3/20;
+		h = img.getHeight(null)*3/20;
 		
+		//multiply width and height by the scale as a fraction
 		
 	}
 	
 	private void update() {
 		tx.setToTranslation(x, y);
-		tx.scale(0.15, 0.15);
+		tx.scale(scale, scale); //0.15
 	}
 	
 	private void init(double a, double b) {
 		tx.setToTranslation(a, b);
-		tx.scale(0.15, 0.15);
+		tx.scale(scale, scale);
 	}
 	
-	public void setTx(double x, double y) {
-		tx.scale(x, y);
+	public void setTx(double x) {
+		scale = x;
+		tx.scale(scale, scale);
 	}
 	
 	private Image getImage(String path) {
@@ -68,6 +68,9 @@ public class Enemy extends Character {
 		return tempImage;
 	}
 	
+	public int getW() {
+		return w;
+	}
 	
 
 }
