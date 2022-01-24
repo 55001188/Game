@@ -31,11 +31,12 @@ public class FrameForGame extends JPanel implements ActionListener, MouseListene
 	private Background b = new Background(0,0);
 	private Player p = new Player();
 	private Bullet bulletP = new Bullet();
-	private Enemy s = new Enemy("ship.png", 0, 70);
+	private Bullet bulletE = new Bullet();
+	private Enemy s = new Enemy("ship.png", 600, 70);
 	private Enemy[][] e = new Enemy[2][6];
 	private ArrayList<Enemy> m = new ArrayList<Enemy> ();
 	private ArrayList<Enemy> h = new ArrayList<Enemy> ();
-	private Enemy me = new Enemy("alienM.png", 100, 100);
+	private ArrayList<Player> life = new ArrayList<Player>();
 	
 	
 	
@@ -70,6 +71,11 @@ public class FrameForGame extends JPanel implements ActionListener, MouseListene
 			thisEnemy.paint(g);
 		}
 		
+		
+		for(Player thisPlayer : life) {
+			thisPlayer.paint(g);
+		}
+		
 		bulletP.paint(g);
 		
 		
@@ -77,7 +83,6 @@ public class FrameForGame extends JPanel implements ActionListener, MouseListene
 		if(!shoot) {
 			bulletP.reset(p);
 		}
-		
 		
 		//collision w/ m
 		for(Enemy thisEnemy : m) {
@@ -97,12 +102,6 @@ public class FrameForGame extends JPanel implements ActionListener, MouseListene
 		}
 		
 		
-		bulletP.collideE(me); 
-		if(bulletP.isCollision()){
-			shoot = false;
-			score += 20;
-			System.out.println(me.getW());
-		}
 		
 		//if bullet goes off of screen
 		if(bulletP.getY() + bulletP.getH() < -5) {
@@ -110,8 +109,17 @@ public class FrameForGame extends JPanel implements ActionListener, MouseListene
 		}
 		
 		
+		//Score
+		Font c = new Font("Arial", Font.PLAIN, 20);
+		g.setFont(c);
+		g.setColor(Color.CYAN);
+		g.drawString("SCORE: " + score + "", 60, 30);
 		
-		
+		/*
+		if(score%20 == 0) {
+			s.move();
+		}
+		*/
 		
 	}
 	
@@ -184,6 +192,20 @@ public class FrameForGame extends JPanel implements ActionListener, MouseListene
 			x+=62;
 		}
 		
+		//enemy bullet
+		if(bulletE.getY()+bulletE.getH() > 620) {
+			//bulletE.reset(//enemy); reset to random enemy
+		}
+		
+		
+		//lives
+		int xl = 400;
+		for(int g = 0; g < 3; g++) {
+			Player temp = new Player(xl, 620, 0.1);
+			life.add(temp);
+			xl += 50;
+		}
+		
 		
 	}
 	
@@ -251,6 +273,7 @@ public class FrameForGame extends JPanel implements ActionListener, MouseListene
 		//shoot
 		if(arg0.getKeyCode() == 32) {
 			shoot = true;
+			bulletP.setShow(true);
 			bulletP.setVy(-7);
 		}
 		

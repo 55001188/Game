@@ -34,11 +34,26 @@ public class Enemy extends Character {
 		//g.fillRect(x, y, w, h);
 		Graphics2D g2 = (Graphics2D) g;
 		g2.drawImage(img, tx, null);
+		
+		x+=vx;
 		update();
 		w = img.getWidth(null)*3/20;
 		h = img.getHeight(null)*3/20;
 		
 		//multiply width and height by the scale as a fraction
+		
+	}
+	
+	public void move() {
+		if(x+w >= -20 && x <= 600) {
+			vx = -5;
+		} else {
+			vx = 0;
+		}
+		
+		if(x+w <= -10) { //figure out how to make ship move and stop when necessary
+			x = 605;
+		}
 		
 	}
 	

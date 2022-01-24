@@ -13,12 +13,14 @@ import javax.imageio.ImageIO;
 
 public class Player extends Character{
 	private boolean rEdge, lEdge;
+	private double scale;
 	
 	public Player() {
 		super();
 		img = getImage("rocket.png");
 		x = 280;
 		y = 550;
+		scale = 0.15;
 		
 		rEdge = false;
 		lEdge = false;
@@ -26,7 +28,22 @@ public class Player extends Character{
 		tx = AffineTransform.getTranslateInstance(x, y);
 		init(x, y);
 		w = 62;
-		h = img.getHeight(null);
+		//h = img.getHeight(null);
+	}
+	
+	public Player(int newx, int newy, double ns) {
+		super();
+		img = getImage("rocket.png");
+		x = newx;
+		y = newy;
+		scale = ns;
+		rEdge = false;
+		lEdge = false;
+		
+		tx = AffineTransform.getTranslateInstance(x, y);
+		init(x, y);
+		w = 62;
+		
 	}
 	
 	public void paint(Graphics g) {
@@ -35,6 +52,7 @@ public class Player extends Character{
 		//g.fillRect(x, y, w, h);
 		Graphics2D g2 = (Graphics2D) g;
 		g2.drawImage(img, tx, null);
+		h = img.getHeight(null)*3/20;
 		
 		x+=vx;
 		update();
@@ -57,13 +75,20 @@ public class Player extends Character{
 	
 	private void update() {
 		tx.setToTranslation(x, y);
-		tx.scale(0.15, 0.15);
+		tx.scale(scale, scale);
 	}
 	
 	private void init(double a, double b) {
 		tx.setToTranslation(a, b);
-		tx.scale(0.15, 0.15);
+		tx.scale(scale, scale);
 	}
+	
+	/*
+	public void setTx(double x) {
+		scale = x;
+		tx.scale(scale, scale);
+	}
+	*/
 	
 	public boolean getREdge() {
 		return rEdge;

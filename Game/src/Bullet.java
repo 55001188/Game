@@ -4,6 +4,8 @@ public class Bullet {
 	private int x,y,w, h;
 	private int vy;
 	private boolean collision;
+	private boolean colP;
+	private boolean show;
 	
 	public Bullet() {
 		x = 300; //middle of player image
@@ -49,7 +51,7 @@ public class Bullet {
 		
 	}
 	
-	public boolean collideB(Barrier other) {
+	public void collideP(Player other) {
 		//collide with barrier
 		//when collide, disappear or set it to shooting position
 		int x1 = this.getX();
@@ -60,29 +62,44 @@ public class Bullet {
 		int y2 = other.getY();
 		int w2 = other.getW();
 		int h2 = other.getH();
-		/*
-		if(x1-(x2 + w2) < 0 || (x1 + w1)-x2 > 0) { //collision x (left, right)
-			
-		}
-		*/
-		if((y1 + h1) - y2 > 0) {//collision y (bottom)
-			collision = true;
+
+		if((y1+h1) > y2 && (y1+h1) < (y2+h2)) {//y detection
+			//collision x (left, right)
+			if((x1 > x2 && x1 < (x2+w2)) || ((x1+w1) > x2 && (x1+w1) < (x2+w2))) {
+				colP = true;
+			} else {
+				colP = false;
+			}
 		} else {
-			collision = false;
+			colP = false;
 		}
-		
-		return collision;
 	
 	}
 	
 	public void reset(Player p) {
+		show = false;
 		x = (p.getX() + p.getW()/2) - w;
 		y = p.getY();
 		collision = false;
 	}
 	
+	public void reset(Enemy e) {
+		show = false;
+		x = (e.getX() + e.getW()/2) - w;
+		y = e.getY() + e.getH() - h;
+		colP = false;
+	}
+	
+	public void shoot() {
+		show = true;
+		vy = 7;
+	}
+	
 	public void paint(Graphics g) {
-		g.fillRect(x, y, w, h);
+		if(show) {
+			g.fillRect(x, y, w, h);
+		}
+		
 		y+=vy;
 	}
 
@@ -133,7 +150,21 @@ public class Bullet {
 	public void setCollision(boolean collision) {
 		this.collision = collision;
 	}
-	
-	
+
+	public boolean isColP() {
+		return colP;
+	}
+
+	public void setColP(boolean colP) {
+		this.colP = colP;
+	}
+
+	public boolean isShow() {
+		return show;
+	}
+
+	public void setShow(boolean show) {
+		this.show = show;
+	}
 	
 }
