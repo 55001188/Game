@@ -90,6 +90,8 @@ public class FrameForGame extends JPanel implements ActionListener, MouseListene
 			if(bulletP.isCollision()){
 				shoot = false;
 				score += 20;
+			} else {
+				//slide(m);
 			}
 		}
 		//collision w/ h
@@ -98,6 +100,8 @@ public class FrameForGame extends JPanel implements ActionListener, MouseListene
 			if(bulletP.isCollision()){
 				shoot = false;
 				score += 30;
+			} else {
+				//slide(h);
 			}
 		}
 		
@@ -121,12 +125,45 @@ public class FrameForGame extends JPanel implements ActionListener, MouseListene
 		}
 		*/
 		
+		/*
+		for(Enemy thisEnemy : m) {
+			if(thisEnemy.getX() + thisEnemy.getW() > 595) {
+				for(int i = 0; i < m.size(); i++) {
+					m.get(i).setVx(-2);;
+				}
+			}
+			if(thisEnemy.getX() < 0) {
+				for(int i = 0; i < m.size(); i++) {
+					m.get(i).setVx(2);;
+				}
+			}
+		}
+		*/
+		
 	}
 	
 	public static void main(String[] arg) {
 		FrameForGame f = new FrameForGame();
 		
 	} 
+	
+	public void slide(ArrayList<Enemy> enemy) {
+		
+		for(Enemy thisEnemy : enemy) {
+			if(thisEnemy.getX() + thisEnemy.getW() > 595) {
+				for(int i = 0; i < enemy.size(); i++) {
+					enemy.get(i).setVx(-2);
+				}
+				
+			}
+			if(thisEnemy.getX() < 0) {
+				for(int i = 0; i < enemy.size(); i++) {
+					enemy.get(i).setVx(2);
+				}
+				
+			}
+		}
+	}
 	
 	public FrameForGame() {
 		JFrame f = new JFrame("Game");

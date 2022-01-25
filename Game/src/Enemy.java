@@ -28,12 +28,14 @@ public class Enemy extends Character {
 		scale = 0.15;
 		tx = AffineTransform.getTranslateInstance(x, y);
 		init(x, y);
+		vx = 2;
 	}
 	
 	public void paint(Graphics g) {
 		//g.fillRect(x, y, w, h);
 		Graphics2D g2 = (Graphics2D) g;
 		g2.drawImage(img, tx, null);
+		
 		
 		x+=vx;
 		update();
