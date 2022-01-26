@@ -31,17 +31,17 @@ public class FrameForGame extends JPanel implements ActionListener, MouseListene
 	private Background b = new Background(0,0);
 	private Player p = new Player();
 	private Bullet bulletP = new Bullet();
-	private Bullet bulletE = new Bullet();
+	private Bullet bulletE = new Bullet(255, 0, 0);
 	private Enemy s = new Enemy("ship.png", 600, 70);
-	private Enemy[][] e = new Enemy[2][6];
+	private ArrayList<Enemy> e = new ArrayList<Enemy> ();
+	private ArrayList<Enemy> e2 = new ArrayList<Enemy> ();
 	private ArrayList<Enemy> m = new ArrayList<Enemy> ();
 	private ArrayList<Enemy> h = new ArrayList<Enemy> ();
 	private ArrayList<Player> life = new ArrayList<Player>();
 	
 	
-	
 	int score = 0; //e = 10, m = 20, h = 30
-	int lives;
+	int lives = 2;
 	
 	boolean shoot = false;
 	
@@ -52,36 +52,53 @@ public class FrameForGame extends JPanel implements ActionListener, MouseListene
 		s.setTx(0.5);//ship
 		s.paint(g);
 		
-		//paint e
-		/*
-		for(int i = 0; i < e.length; i++) {
-			for(int j = 0; j < e[0].length; j++) {
-				e[i][j].paint(g);
-			}
-		}*/
-		
-		
+		//paint e and e2
+		for(Enemy thisEnemy : e) {
+			thisEnemy.paint(g);
+		}
+		for(Enemy thisEnemy : e2) {
+			thisEnemy.paint(g);
+		}
 		//paint m
 		for(Enemy thisEnemy : m) {
 			thisEnemy.paint(g);
 		}
-		
 		//paint h
 		for(Enemy thisEnemy : h) {
 			thisEnemy.paint(g);
 		}
 		
-		
+		//paint lives of player
 		for(Player thisPlayer : life) {
 			thisPlayer.paint(g);
 		}
 		
 		bulletP.paint(g);
+		bulletE.paint(g);
 		
+		//shoot at random intervals
+		//bulletE.shoot();
+		//
 		
 		//bullet for player
 		if(!shoot) {
 			bulletP.reset(p);
+		}
+		
+		//collision w/ e
+		for(Enemy thisEnemy : e) {
+			bulletP.collideE(thisEnemy); 
+			if(bulletP.isCollision()){
+				shoot = false;
+				score += 10;
+			}
+		}
+		for(Enemy thisEnemy : e2) {
+			bulletP.collideE(thisEnemy); 
+			if(bulletP.isCollision()){
+				shoot = false;
+				score += 10;
+			}
 		}
 		
 		//collision w/ m
@@ -90,9 +107,8 @@ public class FrameForGame extends JPanel implements ActionListener, MouseListene
 			if(bulletP.isCollision()){
 				shoot = false;
 				score += 20;
-			} else {
-				//slide(m);
 			}
+				
 		}
 		//collision w/ h
 		for(Enemy thisEnemy : h) {
@@ -100,18 +116,29 @@ public class FrameForGame extends JPanel implements ActionListener, MouseListene
 			if(bulletP.isCollision()){
 				shoot = false;
 				score += 30;
-			} else {
-				//slide(h);
 			}
 		}
 		
+		//collision with player
+		bulletE.collideP(p);
+		if(bulletP.isColP()) {
+			//return bullet to random alien
+			//lose a life
+			//player explodes or something
+		}
 		
 		
-		//if bullet goes off of screen
+		//if player's bullet goes off of screen
 		if(bulletP.getY() + bulletP.getH() < -5) {
 			shoot = false;
 		}
 		
+		//if enemy's bullet goes off screen
+		if(bulletP.getY() + bulletP.getH() > 615) {
+			//bulletE.reset(//enemy); reset to random enemy
+			//
+			//
+		}
 		
 		//Score
 		Font c = new Font("Arial", Font.PLAIN, 20);
@@ -119,26 +146,37 @@ public class FrameForGame extends JPanel implements ActionListener, MouseListene
 		g.setColor(Color.CYAN);
 		g.drawString("SCORE: " + score + "", 60, 30);
 		
-		/*
-		if(score%20 == 0) {
-			s.move();
-		}
-		*/
 		
-		/*
-		for(Enemy thisEnemy : m) {
-			if(thisEnemy.getX() + thisEnemy.getW() > 595) {
-				for(int i = 0; i < m.size(); i++) {
-					m.get(i).setVx(-2);;
-				}
-			}
-			if(thisEnemy.getX() < 0) {
-				for(int i = 0; i < m.size(); i++) {
-					m.get(i).setVx(2);;
-				}
+		//movement for enemy aliens
+		slide(e);
+		slide(e2);
+		slide(m);
+		slide(h);
+		//move spaceship at random intervals
+		//
+		//
+		
+		//game over if enemies reach player
+		for(Enemy thisEnemy : e) {
+			if(thisEnemy.getY()+thisEnemy.getH() > 545) {
+				//game over
 			}
 		}
-		*/
+		for(Enemy thisEnemy : e2) {
+			if(thisEnemy.getY()+thisEnemy.getH() > 545) {
+				//game over
+			}
+		}
+		for(Enemy thisEnemy : m) {
+			if(thisEnemy.getY()+thisEnemy.getH() > 545) {
+				//game over
+			}
+		}
+		for(Enemy thisEnemy : h) {
+			if(thisEnemy.getY()+thisEnemy.getH() > 545) {
+				//game over
+			}
+		}
 		
 	}
 	
@@ -148,21 +186,21 @@ public class FrameForGame extends JPanel implements ActionListener, MouseListene
 	} 
 	
 	public void slide(ArrayList<Enemy> enemy) {
-		
 		for(Enemy thisEnemy : enemy) {
-			if(thisEnemy.getX() + thisEnemy.getW() > 595) {
+			if(thisEnemy.getX() + thisEnemy.getW() > 540 && thisEnemy.getX() + thisEnemy.getW() < 1000) {
 				for(int i = 0; i < enemy.size(); i++) {
 					enemy.get(i).setVx(-2);
+					enemy.get(i).setY(enemy.get(i).getY() + 5);
 				}
-				
-			}
-			if(thisEnemy.getX() < 0) {
+			} 
+			if(thisEnemy.getX() < 60) {
 				for(int i = 0; i < enemy.size(); i++) {
 					enemy.get(i).setVx(2);
+					enemy.get(i).setY(enemy.get(i).getY() + 5);
 				}
-				
 			}
 		}
+		
 	}
 	
 	public FrameForGame() {
@@ -194,24 +232,27 @@ public class FrameForGame extends JPanel implements ActionListener, MouseListene
 			}
 		*/
 		
-		
 		int x = 100;
 		int y = 250;
-		/**/
-		//easy
-		for(int i = 0; i < e.length; i++) {
-			for(int k = 0; k < e[0].length; k++) {
-				e[i][k] = new Enemy("alienE.png", x, y);
-				x+=60;
-			}
-			y+=50;
-			x = 100;
+		for(int i = 0; i < 6; i++) {
+			Enemy temp = new Enemy("alienE.png", x, y);
+			//add to array list
+			e2.add(temp);
+			x+=60;
 		}
 		
+		x = 100;
+		y = 300;
+		for(int i = 0; i < 6; i++) {
+			Enemy temp = new Enemy("alienE.png", x, y);
+			//add to array list
+			e.add(temp);
+			x+=60;
+		}
 		
 		//medium
 		x = 100;
-		y -= 150;
+		y -= 100;
 		for(int i = 0; i < 6; i++) {
 			Enemy temp = new Enemy("alienM.png", x, y);
 			//add to array list
@@ -229,15 +270,9 @@ public class FrameForGame extends JPanel implements ActionListener, MouseListene
 			x+=62;
 		}
 		
-		//enemy bullet
-		if(bulletE.getY()+bulletE.getH() > 620) {
-			//bulletE.reset(//enemy); reset to random enemy
-		}
-		
-		
 		//lives
-		int xl = 400;
-		for(int g = 0; g < 3; g++) {
+		int xl = 450;
+		for(int g = 0; g < 2; g++) {
 			Player temp = new Player(xl, 620, 0.1);
 			life.add(temp);
 			xl += 50;

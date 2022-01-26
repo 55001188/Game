@@ -1,3 +1,4 @@
+import java.awt.Color;
 import java.awt.Graphics;
 
 public class Bullet {
@@ -6,21 +7,28 @@ public class Bullet {
 	private boolean collision;
 	private boolean colP;
 	private boolean show;
+	private Color c;
 	
 	public Bullet() {
-		x = 300; //middle of player image
-		y = 500; //change later
+		x = 300;
+		y = 500;
 		vy = 0;
 		w = 4;
 		h = 15;
 		collision = false;
+		colP = false;
+		c = new Color(255, 255, 255);
 	} 
 	
-	public Bullet(int nX, int nY) {
-		x = nX; //middle of player image
-		y = nY; //change later
+	public Bullet(int r, int g, int b) {
+		x = 0;
+		y = 0;
 		vy = 0;
 		w = 4;
+		h = 15;
+		collision = false;
+		colP = false;
+		c = new Color(r, g, b);
 	}
 	
 	public void collideE(Enemy other) {
@@ -96,6 +104,7 @@ public class Bullet {
 	}
 	
 	public void paint(Graphics g) {
+		g.setColor(c);
 		if(show) {
 			g.fillRect(x, y, w, h);
 		}
