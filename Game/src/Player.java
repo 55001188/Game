@@ -14,6 +14,7 @@ import javax.imageio.ImageIO;
 public class Player extends Character{
 	private boolean rEdge, lEdge;
 	private double scale;
+	private boolean dead;
 	
 	public Player() {
 		super();
@@ -21,7 +22,7 @@ public class Player extends Character{
 		x = 280;
 		y = 550;
 		scale = 0.15;
-		
+		dead = false;
 		rEdge = false;
 		lEdge = false;
 		
@@ -39,7 +40,7 @@ public class Player extends Character{
 		scale = ns;
 		rEdge = false;
 		lEdge = false;
-		
+		dead = false;
 		tx = AffineTransform.getTranslateInstance(x, y);
 		init(x, y);
 		w = 62;
@@ -55,6 +56,7 @@ public class Player extends Character{
 		h = img.getHeight(null)*3/20;
 		
 		x+=vx;
+		y+=vy;
 		update();
 		
 		if(x + w > 600) { //fix boundaries 
@@ -71,6 +73,16 @@ public class Player extends Character{
 			lEdge = false;
 		}
 		
+	}
+	
+	public void changePicture(String newFileName) {
+		img = getImage(newFileName);
+		init(scale, scale);
+	}
+	
+	public void reset() {
+		img = getImage("rocket.png");
+		init(scale, scale);
 	}
 	
 	private void update() {

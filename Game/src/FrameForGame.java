@@ -38,10 +38,12 @@ public class FrameForGame extends JPanel implements ActionListener, MouseListene
 	private ArrayList<Enemy> m = new ArrayList<Enemy> ();
 	private ArrayList<Enemy> h = new ArrayList<Enemy> ();
 	private ArrayList<Player> life = new ArrayList<Player>();
+	private ArrayList<ArrayList> en = new ArrayList<ArrayList>();
 	
 	
 	int score = 0; //e = 10, m = 20, h = 30
 	int lives = 2;
+	boolean dead = false;
 	
 	boolean shoot = false;
 	
@@ -77,8 +79,17 @@ public class FrameForGame extends JPanel implements ActionListener, MouseListene
 		bulletE.paint(g);
 		
 		//shoot at random intervals
-		//bulletE.shoot();
-		//
+		int r = (int)(Math.random()*10 + 1);
+		if(score%r == 0 && !dead) {
+			bulletE.shoot();
+		}
+		
+		//reset to position
+		if(!bulletE.isShow()) {
+			int ran = (int)(Math.random()*6);
+			int ran2 = (int)(Math.random()*4);
+			bulletE.reset((Enemy)en.get(ran2).get(ran));
+		}
 		
 		//bullet for player
 		if(!shoot) {
@@ -119,14 +130,30 @@ public class FrameForGame extends JPanel implements ActionListener, MouseListene
 			}
 		}
 		
-		//collision with player
-		bulletE.collideP(p);
-		if(bulletP.isColP()) {
-			//return bullet to random alien
-			//lose a life
-			//player explodes or something
+		//collision with ship
+		bulletP.collideE(s);
+		if(bulletP.isCollision()) {
+			shoot = false;
+			score += 50;
 		}
 		
+		//collision with player
+		bulletE.collideP(p);
+		if(bulletE.isColP()) {
+			bulletE.setShow(false);
+			dead = true;
+			//p.changePicture(//picture of crushed ship);
+			lives--;
+			life.get(0).setVy(1);
+			
+			if(life.get(0).getY() > 700) {//fix
+				life.get(0).setVy(0);
+				p.reset();
+				dead = false;
+				System.out.println("hi");
+			}
+			
+		}
 		
 		//if player's bullet goes off of screen
 		if(bulletP.getY() + bulletP.getH() < -5) {
@@ -134,10 +161,8 @@ public class FrameForGame extends JPanel implements ActionListener, MouseListene
 		}
 		
 		//if enemy's bullet goes off screen
-		if(bulletP.getY() + bulletP.getH() > 615) {
-			//bulletE.reset(//enemy); reset to random enemy
-			//
-			//
+		if(bulletE.getY() + bulletE.getH() > 615) {
+			bulletE.setShow(false);
 		}
 		
 		//Score
@@ -152,9 +177,14 @@ public class FrameForGame extends JPanel implements ActionListener, MouseListene
 		slide(e2);
 		slide(m);
 		slide(h);
-		//move spaceship at random intervals
-		//
-		//
+		
+		//move spaceship
+		if(score%20 == 0) { //fix
+			s.move();
+			if(s.getX()+s.getW() < -10) {
+				s.reset();
+			}
+		}
 		
 		//game over if enemies reach player
 		for(Enemy thisEnemy : e) {
@@ -233,7 +263,7 @@ public class FrameForGame extends JPanel implements ActionListener, MouseListene
 		*/
 		
 		int x = 100;
-		int y = 250;
+		int y = 200;
 		for(int i = 0; i < 6; i++) {
 			Enemy temp = new Enemy("alienE.png", x, y);
 			//add to array list
@@ -242,7 +272,7 @@ public class FrameForGame extends JPanel implements ActionListener, MouseListene
 		}
 		
 		x = 100;
-		y = 300;
+		y = 260;
 		for(int i = 0; i < 6; i++) {
 			Enemy temp = new Enemy("alienE.png", x, y);
 			//add to array list
@@ -252,7 +282,7 @@ public class FrameForGame extends JPanel implements ActionListener, MouseListene
 		
 		//medium
 		x = 100;
-		y -= 100;
+		y -= 120;
 		for(int i = 0; i < 6; i++) {
 			Enemy temp = new Enemy("alienM.png", x, y);
 			//add to array list
@@ -262,13 +292,19 @@ public class FrameForGame extends JPanel implements ActionListener, MouseListene
 		
 		//hard
 		x = 100;
-		y -= 50;
+		y -= 60;
 		for(int i = 0; i < 6; i++) {
 			Enemy temp = new Enemy("alienH.png", x, y);
 			//add to array list
 			h.add(temp);
 			x+=62;
 		}
+		
+		//add enemy array to array list
+		en.add(e);
+		en.add(e2);
+		en.add(h);
+		en.add(m);
 		
 		//lives
 		int xl = 450;

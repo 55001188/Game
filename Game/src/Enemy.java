@@ -52,11 +52,10 @@ public class Enemy extends Character {
 		} else {
 			vx = 0;
 		}
-		
-		if(x+w <= -10) { //figure out how to make ship move and stop when necessary
-			x = 605;
-		}
-		
+	}
+	public void reset() {
+			vx = 0;
+			x = 600;
 	}
 	
 	private void update() {
