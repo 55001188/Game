@@ -29,6 +29,7 @@ public class Bullet {
 		collision = false;
 		colP = false;
 		c = new Color(r, g, b);
+		show = false;
 	}
 	
 	public void collideE(Enemy other) {

@@ -75,14 +75,16 @@ public class Player extends Character{
 		
 	}
 	
-	public void changePicture(String newFileName) {
-		img = getImage(newFileName);
+	public void changePicture() {
+		img = getImage("HitRocket.png");
 		init(scale, scale);
+		update();
 	}
 	
 	public void reset() {
 		img = getImage("rocket.png");
 		init(scale, scale);
+		update();
 	}
 	
 	private void update() {

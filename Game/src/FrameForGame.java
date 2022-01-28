@@ -44,8 +44,8 @@ public class FrameForGame extends JPanel implements ActionListener, MouseListene
 	int score = 0; //e = 10, m = 20, h = 30
 	int lives = 2;
 	boolean dead = false;
-	
 	boolean shoot = false;
+	boolean gameOver = false;
 	
 	public void paint(Graphics g) {
 		//super.paintComponent(g);
@@ -79,8 +79,8 @@ public class FrameForGame extends JPanel implements ActionListener, MouseListene
 		bulletE.paint(g);
 		
 		//shoot at random intervals
-		int r = (int)(Math.random()*10 + 1);
-		if(score%r == 0 && !dead) {
+		int r = 10*(int)(Math.random()*10)+1;
+		if(score%r == 0 && score != 0 && !dead) {
 			bulletE.shoot();
 		}
 		
@@ -119,7 +119,6 @@ public class FrameForGame extends JPanel implements ActionListener, MouseListene
 				shoot = false;
 				score += 20;
 			}
-				
 		}
 		//collision w/ h
 		for(Enemy thisEnemy : h) {
@@ -142,17 +141,35 @@ public class FrameForGame extends JPanel implements ActionListener, MouseListene
 		if(bulletE.isColP()) {
 			bulletE.setShow(false);
 			dead = true;
-			//p.changePicture(//picture of crushed ship);
 			lives--;
-			life.get(0).setVy(1);
-			
-			if(life.get(0).getY() > 700) {//fix
-				life.get(0).setVy(0);
-				p.reset();
-				dead = false;
-				System.out.println("hi");
+			if(life.get(0).getY() > 750) {
+				life.get(1).setVy(1);
+			}else {
+				life.get(0).setVy(1);
 			}
-			
+		}
+		
+		if(dead) {
+			p.changePicture();
+		}
+		
+		//Resets player after losing a life
+		if(life.get(0).getY() > 750 && life.get(0).getY() < 800 && !gameOver) {//fix
+			p.reset();
+			dead = false;
+		}
+		
+		if(life.get(1).getY() > 750 && life.get(1).getY() < 800 && !gameOver) {//fix
+			p.reset();
+			dead = false;
+		}
+		
+		if(life.get(0).getY() > 850) {
+			life.get(0).setVy(0);
+		}
+		
+		if(life.get(1).getY() > 850) {
+			life.get(1).setVy(0);
 		}
 		
 		//if player's bullet goes off of screen
@@ -171,12 +188,21 @@ public class FrameForGame extends JPanel implements ActionListener, MouseListene
 		g.setColor(Color.CYAN);
 		g.drawString("SCORE: " + score + "", 60, 30);
 		
+		if(lives == 0) {
+			gameOver = true;
+		}
 		
 		//movement for enemy aliens
-		slide(e);
-		slide(e2);
-		slide(m);
-		slide(h);
+		if(!gameOver) {
+			slide(e);
+			slide(e2);
+			slide(m);
+			slide(h);
+		} else {
+			lose();
+		}
+		
+		
 		
 		//move spaceship
 		if(score%20 == 0) { //fix
@@ -188,24 +214,37 @@ public class FrameForGame extends JPanel implements ActionListener, MouseListene
 		
 		//game over if enemies reach player
 		for(Enemy thisEnemy : e) {
-			if(thisEnemy.getY()+thisEnemy.getH() > 545) {
-				//game over
+			if(thisEnemy.getY()+thisEnemy.getH() > 545 && thisEnemy.getY() < 600) {
+				gameOver = true;
+				System.out.println("t1");
 			}
 		}
 		for(Enemy thisEnemy : e2) {
-			if(thisEnemy.getY()+thisEnemy.getH() > 545) {
-				//game over
+			if(thisEnemy.getY()+thisEnemy.getH() > 545 && thisEnemy.getY() < 600) {
+				gameOver = true;
+				System.out.println("t2");
 			}
 		}
 		for(Enemy thisEnemy : m) {
-			if(thisEnemy.getY()+thisEnemy.getH() > 545) {
-				//game over
+			if(thisEnemy.getY()+thisEnemy.getH() > 545 && thisEnemy.getY() < 600) {
+				gameOver = true;
+				System.out.println("t3");
 			}
 		}
 		for(Enemy thisEnemy : h) {
-			if(thisEnemy.getY()+thisEnemy.getH() > 545) {
-				//game over
+			if(thisEnemy.getY()+thisEnemy.getH() > 545 && thisEnemy.getY() < 600) {
+				gameOver = true;
+				System.out.println("t4");
 			}
+		}
+		
+
+		if(gameOver) {
+			Font c1 = new Font("Arial", Font.PLAIN, 40);
+			g.setFont(c1);
+			g.setColor(Color.RED);
+			g.drawString("GAME OVER!!!", 200, 50);
+			dead = true;
 		}
 		
 	}
@@ -231,6 +270,21 @@ public class FrameForGame extends JPanel implements ActionListener, MouseListene
 			}
 		}
 		
+	}
+	
+	public void lose() {
+		for(Enemy thisEnemy : e) {
+			thisEnemy.setVx(0);
+		}
+		for(Enemy thisEnemy : e2) {
+			thisEnemy.setVx(0);
+		}
+		for(Enemy thisEnemy : m) {
+			thisEnemy.setVx(0);
+		}
+		for(Enemy thisEnemy : h) {
+			thisEnemy.setVx(0);
+		}
 	}
 	
 	public FrameForGame() {
@@ -368,23 +422,22 @@ public class FrameForGame extends JPanel implements ActionListener, MouseListene
 		// TODO Auto-generated method stub
 		//System.out.println(arg0.getKeyCode());
 		//39 right, 40 middle, 37 left, 38 top
-		
-		if(arg0.getKeyCode() == 39) {
-			p.setVx(5);
-		}
-		
-		if(arg0.getKeyCode() == 37) {
-			p.setVx(-5);
+		if(!dead) {
+			if(arg0.getKeyCode() == 39) {
+				p.setVx(5);
+			}
 			
-		}
+			if(arg0.getKeyCode() == 37) {
+				p.setVx(-5);
+			}
 		
-		//shoot
-		if(arg0.getKeyCode() == 32) {
-			shoot = true;
-			bulletP.setShow(true);
-			bulletP.setVy(-7);
+			//shoot
+			if(arg0.getKeyCode() == 32) {
+				shoot = true;
+				bulletP.setShow(true);
+				bulletP.setVy(-7);
+			}
 		}
-		
 	}
 
 	@Override
