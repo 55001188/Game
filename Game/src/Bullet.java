@@ -101,7 +101,7 @@ public class Bullet {
 	
 	public void shoot() {
 		show = true;
-		vy = 7;
+		vy = 10;
 	}
 	
 	public void paint(Graphics g) {

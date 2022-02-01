@@ -265,13 +265,13 @@ public class FrameForGame extends JPanel implements ActionListener, MouseListene
 			if(thisEnemy.getX() + thisEnemy.getW() > 540 && thisEnemy.getX() + thisEnemy.getW() < 1000) {
 				for(int i = 0; i < enemy.size(); i++) {
 					enemy.get(i).setVx(-2);
-					enemy.get(i).setY(enemy.get(i).getY() + 5);
+					enemy.get(i).setY(enemy.get(i).getY() + 10);
 				}
 			} 
 			if(thisEnemy.getX() < 60) {
 				for(int i = 0; i < enemy.size(); i++) {
 					enemy.get(i).setVx(2);
-					enemy.get(i).setY(enemy.get(i).getY() + 5);
+					enemy.get(i).setY(enemy.get(i).getY() + 10);
 				}
 			}
 		}
