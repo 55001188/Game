@@ -238,13 +238,19 @@ public class FrameForGame extends JPanel implements ActionListener, MouseListene
 			}
 		}
 		
+		if(score >= 360) {
+			gameOver = true;
+		}
+		
 
 		if(gameOver) {
 			Font c1 = new Font("Arial", Font.PLAIN, 40);
 			g.setFont(c1);
 			g.setColor(Color.RED);
 			g.drawString("GAME OVER!!!", 200, 50);
-			dead = true;
+			if(score < 360) {
+				dead = true;
+			}
 		}
 		
 	}
