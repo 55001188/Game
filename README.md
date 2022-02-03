@@ -14,4 +14,4 @@ The mian classes involved in the project are the Player, Enemy, Bullet, and Fram
 for gifs
 or upload gif and import it into project and write " ![](name.gif)
 example:
-![Alt Text](https://pa1.narvii.com/6198/813decd1cf080d3a8b92bd745cc8d789cfd02201_hq.gif)
+![Alt Text](url w/ .gif)
